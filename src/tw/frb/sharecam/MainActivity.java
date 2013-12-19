@@ -9,12 +9,14 @@ import java.util.regex.Pattern;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.FrameLayout;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
     private static Boolean cmdThreadRun;
     private static Thread cmdThread;
+    private ShareCam shareCam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         cmdThreadRun = false;
+        shareCam = new ShareCam(getApplicationContext(), (FrameLayout)findViewById(R.id.camera_preview));
     }
 
     @Override
@@ -47,6 +50,7 @@ public class MainActivity extends Activity {
         super.onStop();
 
         cmdThreadRun = false;
+        shareCam.release();
     }
 
     class Command implements Runnable {
