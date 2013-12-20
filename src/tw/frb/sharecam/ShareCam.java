@@ -1,6 +1,7 @@
 package tw.frb.sharecam;
 
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -80,10 +81,15 @@ public class ShareCam {
         private static final String TAG = "CameraPreview";
         private SurfaceHolder mHolder;
         private Camera mCamera;
+        private Camera.Parameters mParams;
+        private List<Camera.Size> sizes;
 
         public CameraPreview(Context context, Camera camera) {
             super(context);
             mCamera = camera;
+            mParams = mCamera.getParameters();
+            sizes = mParams.getSupportedPictureSizes();
+
             // Install a SurfaceHolder.Callback so we get notified when the
             // underlying surface is created and destroyed.
             mHolder = getHolder();
@@ -95,6 +101,8 @@ public class ShareCam {
         public void surfaceCreated(SurfaceHolder holder) {
             // The Surface has been created, now tell the camera where to draw the preview.
             try {
+                mParams.setPictureSize(sizes.get(sizes.size() - 1).width, sizes.get(sizes.size() - 1).height);
+                mCamera.setParameters(mParams);
                 mCamera.setPreviewDisplay(holder);
                 mCamera.setPreviewCallback(this);
                 mCamera.startPreview();
@@ -129,6 +137,7 @@ public class ShareCam {
 
             // start preview with new settings
             try {
+                mCamera.setParameters(mParams);
                 mCamera.setPreviewDisplay(mHolder);
                 mCamera.setPreviewCallback(this);
                 mCamera.startPreview();
