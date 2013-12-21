@@ -105,6 +105,7 @@ public class ShareCam {
                 mCamera.setParameters(mParams);
                 mCamera.setPreviewDisplay(holder);
                 mCamera.setPreviewCallback(this);
+                mCamera.setDisplayOrientation(90);
                 mCamera.startPreview();
             } catch (IOException e) {
                 Log.d(TAG, "Error setting camera preview: " + e.getMessage());
@@ -140,6 +141,7 @@ public class ShareCam {
                 mCamera.setParameters(mParams);
                 mCamera.setPreviewDisplay(mHolder);
                 mCamera.setPreviewCallback(this);
+                mCamera.setDisplayOrientation(90);
                 mCamera.startPreview();
             } catch (Exception e){
                 Log.d(TAG, "Error starting camera preview: " + e.getMessage());
