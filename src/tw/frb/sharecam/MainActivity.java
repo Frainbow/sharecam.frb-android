@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
     private static Boolean cmdThreadRun;
     private static Thread cmdThread;
     private ShareCam shareCam;
+    private static ServerDialogFragment serverFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         cmdThreadRun = false;
-        shareCam = new ShareCam(getApplicationContext(), (FrameLayout)findViewById(R.id.camera_preview));
+
+        serverFragment = new ServerDialogFragment();
+        serverFragment.setCancelable(false);
+        serverFragment.show(getFragmentManager(), "server");
     }
 
     @Override
@@ -38,12 +42,6 @@ public class MainActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
-
-        if (!cmdThreadRun) {
-            cmdThreadRun = true;
-            cmdThread = new Thread(new Command());
-            cmdThread.start();
-        }
     }
 
     @Override
@@ -52,6 +50,16 @@ public class MainActivity extends Activity {
 
         cmdThreadRun = false;
         shareCam.release();
+    }
+
+    public void startServer() {
+        shareCam = new ShareCam(getApplicationContext(), (FrameLayout)findViewById(R.id.camera_preview));
+
+        if (!cmdThreadRun) {
+            cmdThreadRun = true;
+            cmdThread = new Thread(new Command());
+            cmdThread.start();
+        }
     }
 
     class Command implements Runnable {
@@ -72,6 +80,8 @@ public class MainActivity extends Activity {
         private int port = 3000;
 
         public Command() {
+            username = serverFragment.username;
+            password = serverFragment.password;
             stringBuffer = new StringBuffer();
             headerBuffer = new StringBuffer();
             bodyBuffer = new StringBuffer();
