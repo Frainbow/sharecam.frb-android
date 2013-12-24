@@ -23,8 +23,10 @@ public class CommandRunnable implements Runnable {
     private String password = "";
     private static String host = "192.168.0.101";
     private static int port = 3000;
+    private ShareCam shareCam;
 
-    public CommandRunnable(String username, String password) {
+    public CommandRunnable(ShareCam shareCam, String username, String password) {
+        this.shareCam = shareCam;
         this.username = username;
         this.password = password;
         this.stringBuffer = new StringBuffer();
@@ -115,20 +117,20 @@ public class CommandRunnable implements Runnable {
                 stringBuffer.setLength(0);
 
                 if (method.compareTo("GET") == 0 && uri.getPath().compareTo("/snapshot") == 0) {
-                    MainActivity.shareCam.jpeg = null;
-                    MainActivity.shareCam.takePicture();
+                    shareCam.jpeg = null;
+                    shareCam.takePicture();
 
-                    while (isRunning && MainActivity.shareCam.jpeg == null);
+                    while (isRunning && shareCam.jpeg == null);
                     if (!isRunning)
                         break;
 
                     stringBuffer.append("HTTP/1.1 200 OK\r\n");
                     stringBuffer.append("Content-Type: image/jpeg\r\n");
-                    stringBuffer.append("Content-Length: " + MainActivity.shareCam.jpeg.length + "\r\n");
+                    stringBuffer.append("Content-Length: " + shareCam.jpeg.length + "\r\n");
                     stringBuffer.append("\r\n");
 
                     outputStream.write(stringBuffer.toString().getBytes());
-                    outputStream.write(MainActivity.shareCam.jpeg);
+                    outputStream.write(shareCam.jpeg);
 
                     continue;
                 }
@@ -147,4 +149,3 @@ public class CommandRunnable implements Runnable {
         }
     }
 }
-

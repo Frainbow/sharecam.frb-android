@@ -3,16 +3,14 @@ package tw.frb.sharecam;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
-import android.widget.FrameLayout;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = "MainActivity";
+    private ServerDialogFragment serverFragment;
+    private ShareCam shareCam;
     private CommandRunnable cmdRunnable;
     private Thread cmdThread;
-    private ServerDialogFragment serverFragment;
-
-    static ShareCam shareCam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +41,10 @@ public class MainActivity extends Activity {
     }
 
     public void startServer() {
-        shareCam = new ShareCam(getApplicationContext(), (FrameLayout)findViewById(R.id.camera_preview));
-        this.cmdRunnable = new CommandRunnable(serverFragment.username, serverFragment.password);
+        this.shareCam = new ShareCam(this);
+        this.cmdRunnable = new CommandRunnable(shareCam, serverFragment.username, serverFragment.password);
         this.cmdThread = new Thread(cmdRunnable);
-        cmdThread.start();
+        this.cmdThread.start();
     }
 
     public void stopServer() {

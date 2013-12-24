@@ -17,10 +17,11 @@ public class ShareCam {
     private static final String TAG = "ShareCam";
     private Camera mCamera;
     private CameraPreview mPreview;
+    private FrameLayout mFrameLayout;
 
     public byte[] jpeg;
 
-    public ShareCam(Context context, FrameLayout layout) {
+    public ShareCam(Context context) {
         // Create an instance of Camera
         if (checkCameraHardware(context)) {
             mCamera = getCameraInstance();
@@ -29,7 +30,8 @@ public class ShareCam {
         // Create our Preview view and set it as the content of our activity.
         if (mCamera != null) {
             mPreview = new CameraPreview(context, mCamera);
-            layout.addView(mPreview);
+            mFrameLayout = (FrameLayout)((MainActivity)context).findViewById(R.id.camera_preview);
+            mFrameLayout.addView(mPreview);
         }
     }
 
