@@ -9,10 +9,22 @@
     tools:context=".MainActivity" >
 
     <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-    /> 
+        android:id="@+id/flCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvServerMessage"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvServerMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/flCamera"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="@string/server_msg_connect" />
 
 </RelativeLayout>

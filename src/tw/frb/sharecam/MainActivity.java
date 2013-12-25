@@ -1,8 +1,11 @@
 package tw.frb.sharecam;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.view.Menu;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -11,6 +14,20 @@ public class MainActivity extends Activity {
     private ShareCam shareCam;
     private CommandRunnable cmdRunnable;
     private Thread cmdThread;
+
+    final Handler handler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            TextView tvServerMessage = (TextView)findViewById(R.id.tvServerMessage);
+            boolean status = msg.getData().getBoolean("status");
+            int port = msg.getData().getInt("client_port");
+
+            if (status)
+                tvServerMessage.setText(getResources().getString(R.string.server_msg_port) + port);
+            else
+                tvServerMessage.setText(getResources().getString(R.string.server_msg_error));
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +59,7 @@ public class MainActivity extends Activity {
 
     public void startServer() {
         this.shareCam = new ShareCam(this);
-        this.cmdRunnable = new CommandRunnable(shareCam, serverFragment.username, serverFragment.password);
+        this.cmdRunnable = new CommandRunnable(shareCam, serverFragment.username, serverFragment.password, handler);
         this.cmdThread = new Thread(cmdRunnable);
         this.cmdThread.start();
     }

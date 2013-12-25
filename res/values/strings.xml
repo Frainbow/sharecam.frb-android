@@ -8,5 +8,8 @@
     <string name="password">Password</string>
     <string name="server_dialog_title">Set Password</string>
     <string name="server_dialog_button">OK</string>
+    <string name="server_msg_connect">Connecting to server ...</string>
+    <string name="server_msg_port">Camera ID:</string>
+    <string name="server_msg_error">Connect to server failed.</string>
 
 </resources>

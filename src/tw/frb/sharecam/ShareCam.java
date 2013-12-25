@@ -30,7 +30,7 @@ public class ShareCam {
         // Create our Preview view and set it as the content of our activity.
         if (mCamera != null) {
             mPreview = new CameraPreview(context, mCamera);
-            mFrameLayout = (FrameLayout)((MainActivity)context).findViewById(R.id.camera_preview);
+            mFrameLayout = (FrameLayout)((MainActivity)context).findViewById(R.id.flCamera);
             mFrameLayout.addView(mPreview);
         }
     }

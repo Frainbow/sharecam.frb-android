@@ -7,6 +7,12 @@ import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONObject;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 public class CommandRunnable implements Runnable {
     private static final String TAG = "CommandRunnable";
     private volatile boolean isRunning = true;
@@ -24,11 +30,17 @@ public class CommandRunnable implements Runnable {
     private static String host = "192.168.0.101";
     private static int port = 3000;
     private ShareCam shareCam;
+    private Handler handler;
+    private Message msg;
+    private Bundle bundle;
 
-    public CommandRunnable(ShareCam shareCam, String username, String password) {
+    public CommandRunnable(ShareCam shareCam, String username, String password, Handler handler) {
         this.shareCam = shareCam;
         this.username = username;
         this.password = password;
+        this.handler = handler;
+        this.msg = handler.obtainMessage();
+        this.bundle = new Bundle();
         this.stringBuffer = new StringBuffer();
         this.headerBuffer = new StringBuffer();
         this.bodyBuffer = new StringBuffer();
@@ -79,6 +91,12 @@ public class CommandRunnable implements Runnable {
                         break;
                 }
             }
+
+            JSONObject bodyObject = new JSONObject(bodyBuffer.toString());
+            bundle.putBoolean("status", true);
+            bundle.putInt("client_port", bodyObject.has("client_port") ? bodyObject.getInt("client_port") : -1);
+            msg.setData(bundle);
+            handler.sendMessage(msg);
 
             while (isRunning) {
                 method = "";
@@ -146,6 +164,10 @@ public class CommandRunnable implements Runnable {
             socket.close();
         } catch (Exception exception) {
             exception.printStackTrace();
+            bundle.putBoolean("status", false);
+            bundle.putInt("client_port", -1);
+            msg.setData(bundle);
+            handler.sendMessage(msg);
         }
     }
 }
