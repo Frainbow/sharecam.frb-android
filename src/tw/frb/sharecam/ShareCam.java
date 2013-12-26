@@ -37,6 +37,7 @@ public class ShareCam {
 
     public void release() {
         if (mCamera != null) {
+            mFrameLayout.removeView(mPreview);
             mCamera.setPreviewCallback(null);
             mCamera.stopPreview();
             mCamera.release();

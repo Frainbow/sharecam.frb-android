@@ -3,6 +3,7 @@ package tw.frb.sharecam;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
 import android.app.Activity;
 import android.view.Menu;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ public class MainActivity extends Activity {
     private ShareCam shareCam;
     private CommandRunnable cmdRunnable;
     private Thread cmdThread;
+    private PowerManager powerManager;
+    private PowerManager.WakeLock wakeLock;
 
     final Handler handler = new Handler() {
 
@@ -34,9 +37,11 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        this.powerManager = (PowerManager)getSystemService(POWER_SERVICE);
+        this.wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "sharecam");
+
         this.serverFragment = new ServerDialogFragment();
         this.serverFragment.setCancelable(false);
-        this.serverFragment.show(getFragmentManager(), "server");
     }
 
     @Override
@@ -49,11 +54,23 @@ public class MainActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+
+        this.wakeLock.acquire(150 * 1000);
+
+        if (this.serverFragment.username.length() == 0) {
+            this.serverFragment.show(getFragmentManager(), "server");
+        } else {
+            startServer();
+        }
     }
 
     @Override
     public void onStop() {
         stopServer();
+
+        if (this.wakeLock.isHeld())
+            this.wakeLock.release();
+
         super.onStop();
     }
 
