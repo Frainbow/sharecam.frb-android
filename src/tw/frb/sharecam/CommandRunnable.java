@@ -48,6 +48,12 @@ public class CommandRunnable implements Runnable {
 
     public void kill() {
         this.isRunning = false;
+
+        try {
+            socket.shutdownInput();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
