@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class ServerFragment extends Fragment {
 
     static final String TAG = "ServerFragment";
-    private ServerDialogFragment serverFragment;
+    private ServerDialogFragment serverDialogFragment;
     private ShareCam shareCam;
     private CommandRunnable cmdRunnable;
     private Thread cmdThread;
@@ -47,9 +47,9 @@ public class ServerFragment extends Fragment {
 
         wakeLock = ((MainActivity)getActivity()).wakeLock;
 
-        serverFragment = new ServerDialogFragment();
-        serverFragment.setCancelable(false);
-        serverFragment.callback = new ServerDialogFragment.Callback() {
+        serverDialogFragment = new ServerDialogFragment();
+        serverDialogFragment.setCancelable(false);
+        serverDialogFragment.callback = new ServerDialogFragment.Callback() {
 
             @Override
             public void positive() {
@@ -64,8 +64,8 @@ public class ServerFragment extends Fragment {
 
         wakeLock.acquire(150 * 1000);
 
-        if (serverFragment.username.length() == 0) {
-            serverFragment.show(getFragmentManager(), "server");
+        if (serverDialogFragment.username.length() == 0) {
+            serverDialogFragment.show(getFragmentManager(), "server");
         } else {
             startServer();
         }
@@ -83,7 +83,7 @@ public class ServerFragment extends Fragment {
 
     public void startServer() {
         shareCam = new ShareCam(getActivity());
-        cmdRunnable = new CommandRunnable(shareCam, serverFragment.username, serverFragment.password, handler);
+        cmdRunnable = new CommandRunnable(shareCam, serverDialogFragment.username, serverDialogFragment.password, handler);
         cmdThread = new Thread(cmdRunnable);
         cmdThread.start();
     }
