@@ -11,5 +11,7 @@
     <string name="server_msg_connect">Connecting to server ...</string>
     <string name="server_msg_port">Camera ID:</string>
     <string name="server_msg_error">Connect to server failed.</string>
+    <string name="tab_server">Server</string>
+    <string name="tab_client">Client</string>
 
 </resources>
