@@ -9,6 +9,12 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 
 public class ServerDialogFragment extends DialogFragment {
+
+    interface Callback {
+        void positive();
+    }
+
+    Callback callback;
     String username = "";
     String password = "";
     private EditText etUsername;
@@ -33,7 +39,8 @@ public class ServerDialogFragment extends DialogFragment {
                 username = etUsername.getText().toString();
                 password = etPassowrd.getText().toString();
 
-                ((MainActivity)getActivity()).startServer();
+                if (callback != null)
+                    callback.positive();
             }
 
         });

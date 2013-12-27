@@ -42,6 +42,13 @@ public class MainActivity extends Activity {
 
         this.serverFragment = new ServerDialogFragment();
         this.serverFragment.setCancelable(false);
+        this.serverFragment.callback = new ServerDialogFragment.Callback() {
+
+            @Override
+            public void positive() {
+                startServer();
+            }
+        };
     }
 
     @Override
