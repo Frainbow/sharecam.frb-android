@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
+import android.app.Activity;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ public class ServerFragment extends Fragment {
     private ShareCam shareCam;
     private CommandRunnable cmdRunnable;
     private Thread cmdThread;
+    private PowerManager powerManager;
     private PowerManager.WakeLock wakeLock;
 
     final Handler handler = new Handler() {
@@ -45,7 +47,8 @@ public class ServerFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        wakeLock = ((MainActivity)getActivity()).wakeLock;
+        powerManager = (PowerManager)getActivity().getSystemService(Activity.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
 
         serverDialogFragment = new ServerDialogFragment();
         serverDialogFragment.setCancelable(false);
@@ -65,7 +68,7 @@ public class ServerFragment extends Fragment {
         wakeLock.acquire(150 * 1000);
 
         if (serverDialogFragment.username.length() == 0) {
-            serverDialogFragment.show(getFragmentManager(), "server");
+            serverDialogFragment.show(getFragmentManager(), TAG);
         } else {
             startServer();
         }

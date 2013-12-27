@@ -1,7 +1,6 @@
 package tw.frb.sharecam;
 
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.view.Menu;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -14,15 +13,10 @@ public class MainActivity extends Activity {
     static final String TAG = "MainActivity";
     private ActionBar actionBar;
     private Tab tab;
-    PowerManager powerManager;
-    PowerManager.WakeLock wakeLock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        powerManager = (PowerManager)getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "sharecam");
 
         actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
