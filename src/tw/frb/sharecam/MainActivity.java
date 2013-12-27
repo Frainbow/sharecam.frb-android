@@ -11,7 +11,7 @@ import android.app.FragmentTransaction;
 
 public class MainActivity extends Activity {
 
-    private static final String TAG = "MainActivity";
+    static final String TAG = "MainActivity";
     private ActionBar actionBar;
     private Tab tab;
     PowerManager powerManager;
@@ -28,11 +28,11 @@ public class MainActivity extends Activity {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         tab = actionBar.newTab();
         tab.setText(getResources().getString(R.string.tab_client));
-        tab.setTabListener(new TabListener<ClientFragment>(this, "client", ClientFragment.class));
+        tab.setTabListener(new TabListener<ClientFragment>(this, ClientFragment.TAG, ClientFragment.class));
         actionBar.addTab(tab);
         tab = actionBar.newTab();
         tab.setText(getResources().getString(R.string.tab_server));
-        tab.setTabListener(new TabListener<ServerFragment>(this, "server", ServerFragment.class));
+        tab.setTabListener(new TabListener<ServerFragment>(this, ServerFragment.TAG, ServerFragment.class));
         actionBar.addTab(tab);
     }
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 public class ServerFragment extends Fragment {
 
-    private static final String TAG = "ServerActivity";
+    static final String TAG = "ServerFragment";
     private ServerDialogFragment serverFragment;
     private ShareCam shareCam;
     private CommandRunnable cmdRunnable;

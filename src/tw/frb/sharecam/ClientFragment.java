@@ -10,7 +10,7 @@ import android.webkit.WebView;
 
 public class ClientFragment extends Fragment {
 
-    private static final String TAG = "ClientActivity";
+    static final String TAG = "ClientFragment";
     private WebView webView;
     private WebSettings webSettings;
 
