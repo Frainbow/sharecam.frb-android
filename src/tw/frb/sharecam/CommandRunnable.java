@@ -140,7 +140,7 @@ public class CommandRunnable implements Runnable {
 
                 stringBuffer.setLength(0);
 
-                if (method.compareTo("GET") == 0 && uri.getPath().compareTo("/snapshot") == 0) {
+                if (method.compareTo("GET") == 0 && uri.getPath().compareTo("/client/snapshot") == 0) {
                     shareCam.jpeg = null;
                     shareCam.takePicture();
 
