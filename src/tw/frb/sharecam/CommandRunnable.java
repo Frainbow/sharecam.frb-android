@@ -27,7 +27,7 @@ public class CommandRunnable implements Runnable {
     private static Pattern lengthPattern = Pattern.compile("Content-Length: (\\d+)");
     private String username = "";
     private String password = "";
-    private static String host = "192.168.0.101";
+    private static String host = "sharecam.frb.tw";
     private static int port = 3000;
     private ShareCam shareCam;
     private Handler handler;

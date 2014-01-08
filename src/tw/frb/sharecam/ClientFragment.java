@@ -27,7 +27,7 @@ public class ClientFragment extends Fragment {
         webView = (WebView)getActivity().findViewById(R.id.wvClient);
         webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("http://192.168.0.101/client");
+        webView.loadUrl("http://sharecam.frb.tw/#client");
     }
 
     @Override
