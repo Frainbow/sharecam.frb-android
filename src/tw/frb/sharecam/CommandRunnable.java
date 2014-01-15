@@ -2,6 +2,7 @@ package tw.frb.sharecam;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URI;
 import java.util.regex.Matcher;
@@ -50,7 +51,10 @@ public class CommandRunnable implements Runnable {
         this.isRunning = false;
 
         try {
-            socket.shutdownInput();
+            if (inputStream != null)
+                socket.shutdownInput();
+            else
+                socket.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -61,7 +65,8 @@ public class CommandRunnable implements Runnable {
         // TODO Auto-generated method stub
 
         try {
-            socket = new Socket(host, port);
+            socket = new Socket();
+            socket.connect(new InetSocketAddress(host, port), 0);
             socket.setKeepAlive(true);
 
             inputStream = socket.getInputStream();
