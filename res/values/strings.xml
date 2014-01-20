@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">ShareCam@FRB</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="server_dialog_title">Set Password</string>
